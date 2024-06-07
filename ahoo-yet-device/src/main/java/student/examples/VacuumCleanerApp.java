@@ -20,7 +20,9 @@ public class VacuumCleanerApp
 {
     final static Logger logger = LoggerFactory.getLogger(VacuumCleanerApp.class);
     public static void main( String[] args ) throws IOException, ClassNotFoundException {
-       VacuumCleaner vacuumCleaner = new VacuumCleaner();
+       VacuumCleaner vacuumCleaner = new VacuumCleaner(1, "Atom");
+        System.out.println(vacuumCleaner);
+
         logger.info("Started!");
         logger.info(String.format("%b", vacuumCleaner.isOn()));
         Socket socket = new Socket(Configuration.HOST, Configuration.PORT);

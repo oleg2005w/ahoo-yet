@@ -24,7 +24,11 @@ public class VacuumCleaner extends Device implements HasPowerOnOff, HasBattery{
     }
 
     public void setCharge(int charge) {
+        if (charge >= 0 && charge <=100){
         this.charge = charge;
+        }else {
+            System.out.println("Out");
+        }
     }
 
     @Override
@@ -46,7 +50,7 @@ public class VacuumCleaner extends Device implements HasPowerOnOff, HasBattery{
 
     @Override
     public boolean charge() {
-        setCharge(charge +5);
+        setCharge(charge + 5);
         return false;
     }
 
@@ -62,7 +66,12 @@ public class VacuumCleaner extends Device implements HasPowerOnOff, HasBattery{
     }
 
     @Override
-    public int getGharge() {
-        return 0;
+    public String toString() {
+        return super.toString() +
+                "\n |\n +--" +
+                "VacuumCleaner{" +
+                "charge=" + charge +
+                ", powerState=" + powerState +
+                '}';
     }
 }
