@@ -3,7 +3,7 @@ package student.examples.devices;
 import static student.examples.devices.PowerState.OFF;
 import static student.examples.devices.PowerState.ON;
 
-public class VacuumCleaner extends Device implements HasPowerOnOff, HasBattery{
+public class VacuumCleaner extends NetworkDevice implements HasPowerOnOff, HasBattery{
     private final int MIN_CHARGE = 10;
     private int charge;
     private PowerState powerState;
@@ -24,10 +24,12 @@ public class VacuumCleaner extends Device implements HasPowerOnOff, HasBattery{
     }
 
     public void setCharge(int charge) {
-        if (charge >= 0 && charge <=100){
-        this.charge = charge;
+        if (charge < 0){
+        this.charge = 0;
+        }else if (charge > 100){
+            this.charge = 100;
         }else {
-            System.out.println("Out");
+            this.charge = charge;
         }
     }
 

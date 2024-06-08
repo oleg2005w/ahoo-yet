@@ -1,0 +1,36 @@
+{
+  "dataset": [
+    {
+      "input": "-5",
+      "expected": "0"
+    },
+    {
+      "input": "0",
+      "expected": "0"
+    },
+    {
+      "input": "5",
+      "expected": "5"
+    },
+    {
+      "input": "10",
+      "expected": "10"
+    },
+    {
+      "input": "15",
+      "expected": "15"
+    },
+    {
+      "input": "95",
+      "expected": "95"
+    },
+    {
+      "input": "100",
+      "expected": "100"
+    },
+    {
+      "input": "105",
+      "expected": "100"
+    }
+  ]
+}
