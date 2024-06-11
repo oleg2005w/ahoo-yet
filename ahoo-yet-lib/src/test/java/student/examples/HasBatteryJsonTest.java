@@ -20,7 +20,6 @@ public class HasBatteryJsonTest {
     @BeforeTest(alwaysRun = true)
     public void setup(){
         hasBattery = new VacuumCleaner(1, "Atom");
-        hasBattery.setCharge(50);
     }
     @DataProvider(name = "test from json")
     public String[] jsonreader() throws IOException, ParseException {
