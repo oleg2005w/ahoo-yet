@@ -35,6 +35,6 @@ public class ServerApp {
         ServerCommand turnOnCommand = new ServerCommand(CommandType.TURN_ON);
         oos.writeObject(turnOnCommand);
         logger.info("Stoped!");
-        System.out.println( "Hello World!" );
+        System.out.println( "Hello World!");
     }
 }
