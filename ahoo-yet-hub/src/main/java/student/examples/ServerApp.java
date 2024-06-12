@@ -1,16 +1,5 @@
 package student.examples;
 
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
-
-import student.examples.comm.CommandType;
-import student.examples.comm.ServerCommand;
-import student.examples.config.Configuration;
-
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -46,5 +35,8 @@ public class ServerApp {
         connections.forEach(connection -> {
             System.out.println(connections);
         });
+    }
+    public static void dummyMethod(){
+        System.out.println("Dummy!!!!");
     }
 }
