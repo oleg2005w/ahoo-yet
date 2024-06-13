@@ -3,11 +3,14 @@ package student.examples;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
+import student.examples.comm.Command;
 import student.examples.comm.CommandType;
 import student.examples.comm.ServerCommand;
 import student.examples.config.Configuration;
+import student.examples.devices.DeviceInterface;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -34,18 +37,37 @@ public class ServerApp {
         connections = new HashSet<>();
         serverSocket = new ServerSocket(port, 0, InetAddress.getLocalHost());
     }
-    private void listen() throws IOException {
+    private void listen() throws IOException, ClassNotFoundException {
         while (true){
             Socket clientSocket = serverSocket.accept();
-            logger.info(String.format("CLIENT: connected! -> %s" + clientSocket.getInetAddress()));
-            Map<String, Object> client = new HashMap<>();
-            client.put("socket", clientSocket);
-            connections.add(client);
+            ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
+            Command command = (Command) ois.readObject();
+            if (command.getType() == CommandType.IDENTITY){
+                logger.info(String.format("CLIENT: connected! -> %s", clientSocket.getInetAddress()));
+                DeviceInterface deviceInterface = (DeviceInterface) command.getBody();
+                Map<String, Object> client = new HashMap<>();
+                client.put("socket", clientSocket);
+                client.put("device", deviceInterface);
+                connections.add(client);
+            }
+            //send to client
+            ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
+            Command command1 = new ServerCommand(CommandType.ACKNOWLEDGE, null);
+            oos.writeObject(command1);
+            oos.flush();
+
+            connections.forEach(conn -> {
+                System.out.println(connections);
+            });
+            connections.forEach(conn -> {
+                System.out.println(conn);
+            });
+
         }
     }
-    public static void main( String[] args ) throws IOException {
+    public static void main( String[] args ) throws IOException, ClassNotFoundException {
         logger.info("SERVER: init!");
-        ServerApp app = new ServerApp(10000);
+        ServerApp app = new ServerApp(Configuration.PORT);
         logger.info("Started!");
         app.listen();
         logger.info("SERVER: stop!");

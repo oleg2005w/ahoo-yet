@@ -7,6 +7,7 @@ import org.json.simple.parser.ParseException;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import student.examples.devices.HasBattery;
 import student.examples.devices.VacuumCleaner;
@@ -14,9 +15,11 @@ import student.examples.devices.VacuumCleaner;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+@Listeners(Listener.class)
 
 public class HasBatteryJsonTest {
     private HasBattery hasBattery;
+
     @BeforeTest(alwaysRun = true)
     public void setup(){
         hasBattery = new VacuumCleaner(1, "Atom");

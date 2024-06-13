@@ -1,6 +1,9 @@
 package student.examples.devices;
 
-public abstract class Device {
+import java.io.Serializable;
+
+public abstract class Device implements  DeviceInterface, Serializable {
+    private static final  long serialVersionUID = 1L;
     private int id;
     private String name;
     public Device(){}

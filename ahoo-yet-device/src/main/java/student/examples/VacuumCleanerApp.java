@@ -1,5 +1,7 @@
 package student.examples;
 
+import student.examples.comm.ClientCommand;
+import student.examples.comm.Command;
 import student.examples.comm.CommandType;
 import student.examples.comm.ServerCommand;
 import student.examples.config.Configuration;
@@ -8,6 +10,7 @@ import student.examples.devices.VacuumCleaner;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.Socket;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -20,19 +23,19 @@ public class VacuumCleanerApp
 {
     final static Logger logger = LoggerFactory.getLogger(VacuumCleanerApp.class);
     public static void main( String[] args ) throws IOException, ClassNotFoundException {
-       VacuumCleaner vacuumCleaner = new VacuumCleaner(1, "Atom");
-        System.out.println(vacuumCleaner);
+        logger.info("Starting logs!");
+        Socket socket = new Socket(InetAddress.getLocalHost(), Configuration.PORT);
+        ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+        VacuumCleaner vacuumCleaner = new VacuumCleaner(1, "Atom");
+        ClientCommand clientCommand= new ClientCommand(CommandType.IDENTITY, vacuumCleaner);
+        oos.writeObject(clientCommand);
+        oos.flush();
 
-        logger.info("Started!");
-        logger.info(String.format("%b", vacuumCleaner.isOn()));
-        Socket socket = new Socket(Configuration.HOST, Configuration.PORT);
+        //from server
         ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-        ServerCommand serverCommand = (ServerCommand) ois.readObject();
-
-        if (serverCommand.getType().equals(CommandType.TURN_ON)){
-            vacuumCleaner.switchOn();
+        Command respServer = (Command) ois.readObject();
+        if (respServer.getType() == CommandType.ACKNOWLEDGE){
+            System.out.println("Server responded!!!");
         }
-        logger.info(String.format("%b", vacuumCleaner.isOn()));
-        logger.info("Stoped!");
     }
 }
